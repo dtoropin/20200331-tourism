@@ -1,21 +1,29 @@
 <template lang="pug">
   .counters
-    .counters__item.counters__item--outputs
-      span.counters__score 2000
-      span.counters__desc Lorem Ipsum
-    .counters__item.counters__item--regions
-      span.counters__score 23
-      span.counters__desc Lorem Ipsum
-    .counters__item.counters__item--peoples
-      span.counters__score 19382
-      span.counters__desc Lorem Ipsum
-    .counters__item.counters__item--towns
-      span.counters__score 120
-      span.counters__desc Lorem Ipsum
+    .counters__item(v-for='count in counts')
+      span.counters__score {{ count.number }}
+      span.counters__desc {{ count.name }}
 </template>
 
+<script>
+import { mapActions, mapState } from "vuex";
+export default {
+  computed: {
+    ...mapState("statistic", {
+      counts: state => state.statistic
+    })
+  },
+  methods: {
+    ...mapActions("statistic", ["getStatistic"])
+  },
+  mounted() {
+    this.getStatistic();
+  }
+};
+</script>
+
 <style lang="postcss" scoped>
-@import '../../styles/mixins.pcss';
+@import "../../styles/mixins.pcss";
 .counters {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -37,5 +45,6 @@
 }
 .counters__desc {
   font-size: 17px;
+  text-transform: capitalize;
 }
 </style>

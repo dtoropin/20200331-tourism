@@ -2,10 +2,28 @@
   section.feedback
     .feedback__block.container
       .feedback__head
-        h2.feedback__title Lorem ipsum
+        h2.feedback__title Feedback
       .feedback__text
-        p Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        p {{ feedback.text }}
+      span.feedback__author {{ feedback.name }}
 </template>
+
+<script>
+import { mapActions, mapState } from "vuex";
+export default {
+  computed: {
+    ...mapState("comment", {
+      feedback: state => state.comment
+    })
+  },
+  methods: {
+    ...mapActions("comment", ["getComment"])
+  },
+  mounted() {
+    this.getComment();
+  }
+};
+</script>
 
 <style lang="postcss" scoped>
 .feedback {
@@ -31,8 +49,26 @@
 .feedback__text {
   line-height: 2;
   letter-spacing: 0.52px;
-  text-align: center;
+  text-align: justify;
   font-size: 13px;
   font-weight: 300;
+  margin-bottom: 10px;
+  & > p {
+    position: relative;
+    &::before {
+      position: absolute;
+      top: 0;
+      left: -30px;
+      content: "\201d";
+      font-size: 72px;
+      line-height: 72px;
+      color: #b7b7b7;
+    }
+  }
+}
+.feedback__author {
+  font-style: italic;
+  display: block;
+  text-align: right;
 }
 </style>
