@@ -5,7 +5,7 @@
         h2.feedback__title Feedback
       .feedback__text
         p {{ feedback.text }}
-      span.feedback__author {{ feedback.name }}
+      span.feedback__author {{ feedback.author }}
 </template>
 
 <script>
@@ -47,6 +47,7 @@ export default {
   text-transform: capitalize;
 }
 .feedback__text {
+  padding-left: 20px;
   line-height: 2;
   letter-spacing: 0.52px;
   text-align: justify;

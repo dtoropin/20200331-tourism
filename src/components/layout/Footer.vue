@@ -8,7 +8,9 @@
           p Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
       .footer__video
         Video
-      span.logo Tourism.
+      .footer__info
+        span.logo Tourism.
+        span &copy; {{ new Date().getFullYear() }}
 </template>
 
 <script>
@@ -56,6 +58,15 @@ export default {
 .footer__video {
   max-width: 780px;
   margin-bottom: 116px;
+}
+.footer__info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 21px;
+  & > span + span {
+    margin-left: 10px;
+  }
 }
 .logo {
   display: block;
