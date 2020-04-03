@@ -2,7 +2,6 @@
   .login
     form(@submit.prevent='login').login__form
       label.login__item
-        span.login__title
         input.login__input(
           type="text"
           v-model='user.name'
@@ -13,7 +12,6 @@
           v-show='validation.firstError("user.name")'
         ) {{ validation.firstError("user.name") }}
       label.login__item
-        span.login__title
         input.login__input(
           type="password"
           v-model='user.password'
@@ -24,9 +22,7 @@
         ) {{ validation.firstError("user.password") }}
       label.login__item
         button.login__btn(type="submit") enter
-    .login__popup(
-      v-show='error'
-    ) {{ error }}
+    .login__popup(v-show='error') {{ error }}
 </template>
 
 <script>
@@ -91,10 +87,6 @@ export default {
   & + .login__item {
     margin-top: 30px;
   }
-}
-.login__title {
-  display: block;
-  margin-bottom: 10px;
 }
 .login__input {
   border: 1px solid #cccccc;
