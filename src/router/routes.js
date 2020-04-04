@@ -7,7 +7,13 @@ export default [
   {
     path: '/admin',
     component: () => import('../components/pages/Admin.vue'),
-    name: 'Admin'
+    name: 'Admin',
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/login',
+    component: () => import('../components/pages/Login.vue'),
+    name: 'Login'
   },
   {
     path: '/404',

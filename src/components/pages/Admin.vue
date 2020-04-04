@@ -5,8 +5,7 @@
       v-if='isLogin'
       @click.prevent='logout'
     ) logout
-    Login(v-if='!isLogin')
-    List(v-if='isLogin')
+    List
     EditStatistic(
       v-if='isEditedStat'
       :stat='edit'
@@ -40,14 +39,12 @@ export default {
     }
   },
   components: {
-    Login: () => import("../pages/Login.vue"),
     List: () => import("../layout/List"),
     EditStatistic: () => import("../blocks/EditStatistic"),
     EditComment: () => import("../blocks/EditComment")
   },
   mounted() {
     const token = localStorage.getItem("token");
-    console.log(token);
     if (token) {
       this.setIsLogin(true);
       axios.defaults.headers.common["Authorization"] = token;

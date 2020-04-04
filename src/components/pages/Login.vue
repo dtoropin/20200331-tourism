@@ -51,6 +51,7 @@ export default {
           localStorage.setItem("token", token);
           axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
           this.setIsLogin(true);
+          this.$router.push('/admin');
         } catch (error) {
           this.error = error;
         }
