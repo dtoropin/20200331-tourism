@@ -19,6 +19,7 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import axios from "axios";
 export default {
   computed: {
     ...mapState("base", {
@@ -34,14 +35,23 @@ export default {
       if (confirm("Вы хотите выйти?")) {
         this.setIsLogin(false);
         localStorage.removeItem("token");
+        this.$router.push('/');
       }
     }
   },
   components: {
-    Login: () => import("../layout/Login.vue"),
+    Login: () => import("../pages/Login.vue"),
     List: () => import("../layout/List"),
     EditStatistic: () => import("../blocks/EditStatistic"),
     EditComment: () => import("../blocks/EditComment")
+  },
+  mounted() {
+    const token = localStorage.getItem("token");
+    console.log(token);
+    if (token) {
+      this.setIsLogin(true);
+      axios.defaults.headers.common["Authorization"] = token;
+    }
   }
 };
 </script>

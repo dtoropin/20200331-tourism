@@ -30,7 +30,6 @@
 import { mapActions } from "vuex";
 import { Validator } from "simple-vue-validator";
 import axios from "axios";
-axios.defaults.baseURL = "http://20200401-webapi/";
 export default {
   props: {
     comment: {
@@ -49,20 +48,25 @@ export default {
     async action() {
       if (await this.$validate()) {
         try {
+          let response;
           if (this.comment.id) {
-            const response = await axios.post("/edit/comment", this.comment);
+            response = await axios.post("/edit/comment", this.comment);
           } else {
-            const response = await axios.post("/put/comment", this.comment);
+            response = await axios.post("/put/comment", this.comment);
+          }
+          if (response.data.error) {
+            throw new Error(response.data.error);
           }
           this.setEdit({});
           this.setIsEditedComm(false);
           this.getComments();
         } catch (error) {
-          this.error = error || error.response.data.error;
+          this.error = error;
         }
       }
     },
     close() {
+      this.getComments();
       this.setEdit({});
       this.setIsEditedComm(false);
     }

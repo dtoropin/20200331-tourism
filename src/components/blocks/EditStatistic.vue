@@ -31,7 +31,6 @@
 import { mapState, mapActions } from "vuex";
 import { Validator } from "simple-vue-validator";
 import axios from "axios";
-axios.defaults.baseURL = "http://20200401-webapi/";
 export default {
   props: {
     stat: {
@@ -50,15 +49,19 @@ export default {
       if (await this.$validate()) {
         try {
           const response = await axios.post("/edit/statistic", this.stat);
+          if (response.data.error) {
+            throw new Error(response.data.error);
+          }
           this.getStatistic();
           this.setIsEditedStat(false);
         } catch (error) {
-          this.error = error || error.response.data.error;
+          this.error = error;
         }
       }
     },
     close() {
       this.setIsEditedStat(false);
+      this.getStatistic();
     }
   },
   validators: {

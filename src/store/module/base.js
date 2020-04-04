@@ -4,7 +4,6 @@ export default {
     isLogin: false,
     isEditedStat: false,
     isEditedComm: false,
-    token: localStorage.getItem('token') || '',
     edit: {}
   },
   mutations: {

@@ -1,59 +1,60 @@
 <template lang="pug">
-  Tabs.list.container
-    Tab(title="Comments")
-      button.list__btn.list__btn--add(@click='addComm') add
-      .list__row(v-for='comment in comments')
-        h3 \#{{ comment.id }}
-        p {{ comment.text }}
-        .list__footer
-          .list__button
-            button.list__btn(@click='editComm(comment)') edit
-            button.list__btn(@click='deleteComm(comment.id)') delete
-          span.list__author {{ comment.author }}
-    Tab(title="Statistic")
-      .list__row(v-for='count in statistics')
-        h4 \#{{ count.id }}
-        .list__footer
-          .list__block
-            span.list__count {{ count.number }}
-            span.list__count {{ count.name }}
-          .list__button
-            button.list__btn(
-              @click='edit(count)'
-            ) edit
-    Tab(title="Security")
-      .list__row
-        h3 Change name and password
-        form(@submit.prevent='change').list__form
-          label.list__item
-            span.list__title New name
-            input.list__input(
-              type='text'
-              v-model='user.name'
-            )
-            span.list__error(
-              v-show='validation.firstError("user.name")'
-            ) {{ validation.firstError("user.name") }}
-          label.list__item
-            span.list__title New password
-            input.list__input(
-              type='text'
-              v-model='user.pass'
-            )
-            span.list__error(
-              v-show='validation.firstError("user.pass")'
-            ) {{ validation.firstError("user.pass") }}
-          label.list__item
-            span.list__title Confirm password
-            input.list__input(
-              type='text'
-              v-model='user.confpass'
-            )
-            span.list__error(
-              v-show='validation.firstError("user.confpass")'
-            ) {{ validation.firstError("user.confpass") }}
-          label.list__item
-            button.list__btn(type='submit') change
+  .list.container
+    Tabs
+      Tab(title="Comments")
+        button.list__btn.list__btn--add(@click='addComm') add
+        .list__row(v-for='comment in comments')
+          h3 \#{{ comment.id }}
+          p {{ comment.text }}
+          .list__footer
+            .list__button
+              button.list__btn(@click='editComm(comment)') edit
+              button.list__btn(@click='deleteComm(comment.id)') delete
+            span.list__author {{ comment.author }}
+      Tab(title="Statistic")
+        .list__row(v-for='count in statistics')
+          h4 \#{{ count.id }}
+          .list__footer
+            .list__block
+              span.list__count {{ count.number }}
+              span.list__count {{ count.name }}
+            .list__button
+              button.list__btn(
+                @click='edit(count)'
+              ) edit
+      Tab(title="Security")
+        .list__row
+          h3 Change name and password
+          form(@submit.prevent='change').list__form
+            label.list__item
+              span.list__title New name
+              input.list__input(
+                type='text'
+                v-model='user.name'
+              )
+              span.list__error(
+                v-show='validation.firstError("user.name")'
+              ) {{ validation.firstError("user.name") }}
+            label.list__item
+              span.list__title New password
+              input.list__input(
+                type='text'
+                v-model='user.pass'
+              )
+              span.list__error(
+                v-show='validation.firstError("user.pass")'
+              ) {{ validation.firstError("user.pass") }}
+            label.list__item
+              span.list__title Confirm password
+              input.list__input(
+                type='text'
+                v-model='user.confpass'
+              )
+              span.list__error(
+                v-show='validation.firstError("user.confpass")'
+              ) {{ validation.firstError("user.confpass") }}
+            label.list__item
+              button.list__btn(type='submit') change
     .list__popup(v-show='error') {{ error }}
 </template>
 
@@ -63,7 +64,6 @@ import { mapActions, mapState } from "vuex";
 import { Tabs, Tab } from "vue-slim-tabs";
 import { Validator } from "simple-vue-validator";
 import axios from "axios";
-axios.defaults.baseURL = "http://20200401-webapi/";
 export default {
   data: () => ({
     user: {
@@ -100,11 +100,14 @@ export default {
       if (await this.$validate()) {
         try {
           const response = await axios.post("/login/change", this.user);
+          if (response.data.error) {
+            throw new Error(response.data.error);
+          }
           const token = response.data.token;
           localStorage.setItem("token", token);
           this.setIsLogin(false);
         } catch (error) {
-          this.error = error || error.response.data.error;
+          this.error = error;
         }
       }
     },
@@ -117,9 +120,18 @@ export default {
       this.setIsEditedComm(true);
     },
     async deleteComm(id) {
-      if (confirm("Удалить коммент id: " + id + " ?")) {
-        const response = await axios.post("/delete/comment/" + id);
+      try {
+        if (confirm('Удалить коммент #' + id + '?')) {
+          const response = await axios.post("/delete/comment/" + id);
+        this.error = response.data.error;
+        if (response.data.error) {
+          throw new Error(response.data.error);
+        }
         this.getComments();
+        }
+      } catch (error) {
+        this.error = error;
+        setTimeout(() => this.error = '', 1500);
       }
     },
     addComm() {
@@ -243,7 +255,7 @@ export default {
   text-align: center;
 }
 .list__popup {
-  position: absolute;
+  position: fixed;
   max-width: 500px;
   bottom: 5px;
   left: 50%;

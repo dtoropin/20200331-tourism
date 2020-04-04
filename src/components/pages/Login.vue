@@ -1,36 +1,35 @@
 <template lang="pug">
-  .login
-    form(@submit.prevent='login').login__form
-      label.login__item
-        input.login__input(
-          type="text"
-          v-model='user.name'
-          placeholder="login"
-          autofocus
-        )
-        span.login__error(
-          v-show='validation.firstError("user.name")'
-        ) {{ validation.firstError("user.name") }}
-      label.login__item
-        input.login__input(
-          type="password"
-          v-model='user.password'
-          placeholder="password"
-        )
-        span.login__error(
-          v-show='validation.firstError("user.password")'
-        ) {{ validation.firstError("user.password") }}
-      label.login__item
-        button.login__btn(type="submit") enter
-    .login__popup(v-show='error') {{ error }}
+  .wrapper__content
+    .login
+      form(@submit.prevent='login').login__form
+        label.login__item
+          input.login__input(
+            type="text"
+            v-model='user.name'
+            placeholder="login"
+            autofocus
+          )
+          span.login__error(
+            v-show='validation.firstError("user.name")'
+          ) {{ validation.firstError("user.name") }}
+        label.login__item
+          input.login__input(
+            type="password"
+            v-model='user.password'
+            placeholder="password"
+          )
+          span.login__error(
+            v-show='validation.firstError("user.password")'
+          ) {{ validation.firstError("user.password") }}
+        label.login__item
+          button.login__btn(type="submit") enter
+      .login__popup(v-show='error') {{ error }}
 </template>
 
 <script>
 import { Validator } from "simple-vue-validator";
 import { mapActions } from "vuex";
 import axios from "axios";
-axios.defaults.baseURL = "http://20200401-webapi/";
-
 export default {
   data: () => ({
     user: {
@@ -45,11 +44,15 @@ export default {
       if (await this.$validate()) {
         try {
           const response = await axios.post("/login", this.user);
+          if (response.data.error) {
+            throw new Error(response.data.error);
+          }
           const token = response.data.token;
           localStorage.setItem("token", token);
+          axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
           this.setIsLogin(true);
         } catch (error) {
-          this.error = error || error.response.data.error;
+          this.error = error;
         }
       }
     }
