@@ -4,6 +4,7 @@
     Galery
     Feedback
     Statistic
+    Map
     Footer
 </template>
 
@@ -14,6 +15,7 @@ export default {
     Galery: () => import('../layout/Galery'),
     Feedback: () => import('../layout/Feedback'),
     Statistic: () => import('../layout/Statistic'),
+    Map: () => import('../layout/Map'),
     Footer: () => import('../layout/Footer')
   }
 }
