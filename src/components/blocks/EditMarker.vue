@@ -4,23 +4,32 @@
       .edit__close(@click='close') x
       .edit__title \#{{ data.id }}
       label.edit__item
-        span.edit__title text
-        textarea.edit__input(
-          type='text'
-          v-model='data.text'
-        )
-        span.edit__error(
-          v-show='validation.firstError("data.text")'
-        ) {{ validation.firstError("data.text") }}
-      label.edit__item
-        span.edit__title author
+        span.edit__title name
         input.edit__input(
           type='text'
-          v-model='data.author'
+          v-model='data.name'
         )
         span.edit__error(
-          v-show='validation.firstError("data.author")'
-        ) {{ validation.firstError("data.author") }}
+          v-show='validation.firstError("data.name")'
+        ) {{ validation.firstError("data.name") }}
+      label.edit__item
+        span.edit__title lat
+        input.edit__input(
+          type='text'
+          v-model='data.lat'
+        )
+        span.edit__error(
+          v-show='validation.firstError("data.lat")'
+        ) {{ validation.firstError("data.lat") }}
+      label.edit__item
+        span.edit__title lng
+        input.edit__input(
+          type='text'
+          v-model='data.lng'
+        )
+        span.edit__error(
+          v-show='validation.firstError("data.lng")'
+        ) {{ validation.firstError("data.lng") }}
       .edit__item
         button.edit__btn(type='submit') action
     .edit__popup(v-show='error') {{ error }}
@@ -32,26 +41,27 @@ import { Validator } from "simple-vue-validator";
 import axios from "axios";
 export default {
   props: {
-    comment: Object
+    marker: Object
   },
   data: () => ({
     data: {
-      text: '',
-      author: ''
+      name: "",
+      lat: "",
+      lng: ""
     },
     error: ""
   }),
   methods: {
-    ...mapActions("base", ["setIsEditedComm", "setEdit"]),
-    ...mapActions("comment", ["getComments"]),
+    ...mapActions("base", ["setIsEditedMarker", "setEdit"]),
+    ...mapActions("marker", ["getMarkers"]),
     async action() {
       if (await this.$validate()) {
         try {
           let response;
           if (this.data.id) {
-            response = await axios.post("/edit/comment", this.data);
+            response = await axios.post("/edit/marker", this.data);
           } else {
-            response = await axios.post("/put/comment", this.data);
+            response = await axios.post("/put/marker", this.data);
           }
           if (response.data.error) {
             throw new Error(response.data.error);
@@ -63,22 +73,25 @@ export default {
       }
     },
     close() {
-      this.getComments();
+      this.getMarkers();
       this.setEdit({});
-      this.setIsEditedComm(false);
+      this.setIsEditedMarker(false);
     }
   },
   validators: {
-    "data.text": function(value) {
+    "data.name": function(value) {
       return Validator.value(value).required("заполните поле");
     },
-    "data.author": function(value) {
+    "data.lat": function(value) {
+      return Validator.value(value).required("заполните поле");
+    },
+    "data.lng": function(value) {
       return Validator.value(value).required("заполните поле");
     }
   },
   mounted() {
-    if (this.comment.id) {
-      this.data = this.comment
+    if (this.marker.id) {
+      this.data = this.marker;
     }
   }
 };

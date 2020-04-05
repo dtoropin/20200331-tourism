@@ -54,6 +54,7 @@ export default {
           this.$router.push('/admin');
         } catch (error) {
           this.error = error;
+          setTimeout(() => (this.error = ""), 2000);
         }
       }
     }

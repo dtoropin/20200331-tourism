@@ -15,15 +15,14 @@
             :url="url"
             :attribution="attribution"
           )
-          LMarker(:lat-lng="[59.936190, 30.383094]")
-            LPopup
-              span We are here
-          LMarker(:lat-lng="[59.937190, 30.408880]")
-            LPopup
-              span Other place
+          .map__marker(v-for='marker in markers')
+            LMarker(:lat-lng='[marker.lat, marker.lng]')
+              LPopup
+                span {{ marker.name }}
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
 import { latLng, Icon } from "leaflet";
 import { LMap, LTileLayer, LMarker, LPopup } from "vue2-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -43,7 +42,7 @@ export default {
     LPopup
   },
   data: () => ({
-    zoom: 13,
+    zoom: 8,
     center: latLng(59.93619, 30.383094),
     url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     attribution:
@@ -55,13 +54,22 @@ export default {
       scrollWheelZoom: false
     }
   }),
+  computed: {
+    ...mapState("marker", {
+      markers: state => state.markers
+    })
+  },
   methods: {
+    ...mapActions("marker", ["getMarkers"]),
     zoomUpdate(zoom) {
       this.currentZoom = zoom;
     },
     centerUpdate(center) {
       this.currentCenter = center;
     }
+  },
+  mounted() {
+    this.getMarkers();
   }
 };
 </script>
@@ -74,7 +82,7 @@ export default {
 .map__head {
   display: flex;
   justify-content: center;
-  margin-bottom: 29px;
+  margin-bottom: 50px;
 }
 .map__title {
   padding: 9px 17px;

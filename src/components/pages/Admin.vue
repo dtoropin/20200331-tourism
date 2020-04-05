@@ -14,6 +14,10 @@
       v-if='isEditedComm'
       :comment='edit'
     )
+    EditMarker(
+      v-if='isEditedMarker'
+      :marker='edit'
+    )
 </template>
 
 <script>
@@ -25,6 +29,7 @@ export default {
       isLogin: state => state.isLogin,
       isEditedStat: state => state.isEditedStat,
       isEditedComm: state => state.isEditedComm,
+      isEditedMarker: state => state.isEditedMarker,
       edit: state => state.edit
     })
   },
@@ -34,14 +39,15 @@ export default {
       if (confirm("Вы хотите выйти?")) {
         this.setIsLogin(false);
         localStorage.removeItem("token");
-        this.$router.push('/');
+        this.$router.push('/login');
       }
     }
   },
   components: {
     List: () => import("../layout/List"),
     EditStatistic: () => import("../blocks/EditStatistic"),
-    EditComment: () => import("../blocks/EditComment")
+    EditComment: () => import("../blocks/EditComment"),
+    EditMarker: () => import('../blocks/EditMarker')
   },
   mounted() {
     const token = localStorage.getItem("token");

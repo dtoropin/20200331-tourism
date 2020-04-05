@@ -4,6 +4,7 @@ export default {
     isLogin: false,
     isEditedStat: false,
     isEditedComm: false,
+    isEditedMarker: false,
     edit: {}
   },
   mutations: {
@@ -15,6 +16,9 @@ export default {
     },
     SET_ISEDITEDCOMM(state, isEditedComm) {
       state.isEditedComm = isEditedComm;
+    },
+    SET_ISEDITEDMARKER(state, isEditedMarker) {
+      state.isEditedMarker = isEditedMarker;
     },
     SET_EDIT(state, edit) {
       state.edit = edit;
@@ -29,6 +33,9 @@ export default {
     },
     setIsEditedComm({commit, rootState}, isEditedComm) {
       commit('SET_ISEDITEDCOMM', isEditedComm);
+    },
+    setIsEditedMarker({commit, rootState}, isEditedMarker) {
+      commit('SET_ISEDITEDMARKER', isEditedMarker);
     },
     setEdit({commit, rootState}, edit) {
       commit('SET_EDIT', edit);
