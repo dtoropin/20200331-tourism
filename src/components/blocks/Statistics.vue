@@ -45,10 +45,6 @@ export default {
     border: none;
     margin-bottom: 0;
   }
-  & h3 {
-    font-weight: 500;
-    margin-bottom: 10px;
-  }
   & p {
     font-weight: 300;
     margin-bottom: 30px;
@@ -78,21 +74,5 @@ export default {
   &:hover {
     background: #bebebe;
   }
-  &--add {
-    position: absolute;
-    top: -40px;
-    right: 10px;
-  }
-}
-.list__popup {
-  position: fixed;
-  max-width: 500px;
-  bottom: 5px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 10px 50px;
-  color: #000;
-  background: #ff7171;
-  border-radius: 7px;
 }
 </style>

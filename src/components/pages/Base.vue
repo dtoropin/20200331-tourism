@@ -5,6 +5,7 @@
     Feedback
     Statistic
     Map
+    Request
     Footer
 </template>
 
@@ -16,6 +17,7 @@ export default {
     Feedback: () => import('../layout/Feedback'),
     Statistic: () => import('../layout/Statistic'),
     Map: () => import('../layout/Map'),
+    Request: () => import('../layout/Request'),
     Footer: () => import('../layout/Footer')
   }
 }

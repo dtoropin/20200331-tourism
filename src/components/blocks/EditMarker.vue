@@ -111,7 +111,7 @@ export default {
 }
 .edit__form {
   position: relative;
-  max-width: 500px;
+  max-width: 400px;
   width: 90%;
   padding: 10px;
   border-radius: 7px;

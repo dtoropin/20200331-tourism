@@ -21,7 +21,7 @@
           span.login__error(
             v-show='validation.firstError("user.password")'
           ) {{ validation.firstError("user.password") }}
-        label.login__item
+        .login__item
           button.login__btn(type="submit") enter
       .login__popup(v-show='error') {{ error }}
 </template>
@@ -102,9 +102,6 @@ export default {
   &:focus {
     border: 1px solid #a1a1a1;
   }
-  &:error {
-    border: 1px solid #ff2a2a;
-  }
 }
 .login__error {
   position: absolute;
@@ -131,7 +128,7 @@ export default {
   }
 }
 .login__popup {
-  position: absolute;
+  position: fixed;
   max-width: 500px;
   bottom: 5px;
   left: 50%;

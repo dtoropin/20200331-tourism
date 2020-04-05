@@ -7,6 +7,8 @@
         Statistics
       Tab(title="Markers")
         Markers
+      Tab(title="Requests")
+        Requests
       Tab(title="Security")
         Security
 </template>
@@ -21,7 +23,8 @@ export default {
     Comments: () => import('../blocks/Comments'),
     Statistics: () => import('../blocks/Statistics'),
     Markers: () => import('../blocks/Markers'),
-    Security: () => import('../blocks/Security')
+    Security: () => import('../blocks/Security'),
+    Requests: () => import('../blocks/Requests')
   }
 };
 </script>
