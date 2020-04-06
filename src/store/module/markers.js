@@ -21,7 +21,7 @@ export default {
         const { data } = await this.$axios.get('/get/markers');
         commit('SET_MARKERS', data);
       } catch (error) {
-        alert('Error:' + error || error.response.data.error);
+        console.log(error || error.response.data.error);
       }
     }
   }

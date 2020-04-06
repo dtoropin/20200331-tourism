@@ -20,7 +20,7 @@ export default {
         let comment = data[rnd];
         commit('SET_COMMENT', comment);
       } catch (error) {
-        alert('Error:' + error || error.response.data.error);
+        console.log(error || error.response.data.error);
       }
     },
     async getComments({ commit, rootState }) {
@@ -28,7 +28,7 @@ export default {
         const { data } = await this.$axios.get('/get/comments');
         commit('SET_COMMENTS', data);
       } catch (error) {
-        alert('Error:' + error || error.response.data.error);
+        console.log(error || error.response.data.error);
       }
     }
   }

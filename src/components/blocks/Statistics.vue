@@ -12,7 +12,6 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import axios from "axios";
 export default {
   computed: {
     ...mapState("statistic", {

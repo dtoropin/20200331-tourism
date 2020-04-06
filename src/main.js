@@ -3,7 +3,7 @@ if (process.env.NODE_ENV === "development") {
   require("file-loader!./index.pug");
 }
 
-import "./scripts/skills";
+// import "./scripts/skills";
 
 import Vue from 'vue';
 import App from './App.vue'

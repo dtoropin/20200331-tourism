@@ -14,7 +14,7 @@ export default {
         const { data } = await this.$axios.get('/get/requests');
         commit('SET_REQUESTS', data);
       } catch (error) {
-        alert('Error' + error.response.data.error || error.response.data.message);
+        console.log(error || error.response.data.error);
       }
     }
   }
