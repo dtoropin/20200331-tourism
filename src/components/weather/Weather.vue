@@ -13,7 +13,7 @@
 <script>
 import "./weather-icons.pcss";
 import axios from "axios";
-import weatherIcons from './icons.json';
+import weatherIcons from "./icons.json";
 export default {
   data: () => ({
     latitude: 59.894444,
@@ -30,7 +30,7 @@ export default {
     classWI() {
       if (this.dataObj != null) {
         const code = this.dataObj.weather[0].id;
-        const prefix = 'wi-';
+        const prefix = "wi-";
         let icon = weatherIcons[code].icon;
         if (!(code > 699 && code < 800) && !(code > 899 && code < 1000)) {
           icon = "day-" + icon;
@@ -119,7 +119,8 @@ export default {
     font-style: normal;
     margin-top: 7px;
     margin-right: 10px;
-    text-shadow: rgba(238, 238, 238, 0.5) 1px 1px 0px, rgb(112, 112, 112) 1px 1px 0px;
+    text-shadow: rgba(238, 238, 238, 0.5) 1px 1px 0px,
+      rgb(112, 112, 112) 1px 1px 0px;
   }
 }
 .weather__footer {
@@ -130,6 +131,28 @@ export default {
     &:hover {
       color: #273aa3;
     }
+  }
+}
+@media screen and (max-width: 480px) {
+  .weather {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+  }
+  .weather__card {
+    background: transparent;
+    margin-bottom: 0;
+    padding: 5px;
+  }
+  .weather__city {
+    font-size: 18px;
+  }
+  .weather__temperature {
+    font-size: 28px;
+  }
+  .weather__caption,
+  .weather__footer {
+    display: none;
   }
 }
 </style>
